@@ -71,10 +71,6 @@ if add_selectbox == "Artifacts":  # If category selected is "Artifacts"
         st.write("--")
 
         st.subheader("Compare possible mainstats for each artifact piece below.")
-        parameters = st.multiselect(
-            "Select One or More Artifact Pieces",
-            ["Flower of Life", "Plume of Death", "Sands of Eon", "Goblet of Eonothem", "Circlet of Logos"]
-        )
         df = pd.DataFrame(
             [["Flat HP",
               "Flat ATK",
@@ -90,11 +86,16 @@ if add_selectbox == "Artifacts":  # If category selected is "Artifacts"
             ],
         )
 
-        if parameters:
-            st.markdown('##')
-            st.markdown('##')
-            st.markdown('##')
-            st.dataframe(df[parameters])
+        # CSS to inject contained in a string
+        hide_table_row_index = """
+                    <style>
+                    thead tr th:first-child {display:none}
+                    tbody th {display:none}
+                    </style>
+                    """
+        st.markdown(hide_table_row_index, unsafe_allow_html=True) # Inject CSS with markdown to remove row indices
+
+        st.table(df)
 
         st.write("--")
 
@@ -153,8 +154,7 @@ if add_selectbox == "Artifacts":  # If category selected is "Artifacts"
 elif add_selectbox == "Characters":
     st.title("Character Archive")
     st.subheader("Find basic information for playable characters")
-    st.warning("WARNING: Unreleased/new characters may not be fully updated in the database. "
-               "They might not display properly just yet!")
+    st.warning("WARNING: New/unreleased characters may not be fully updated in the database.")
 
     archiveURL = "https://genshin-db-api.vercel.app/api/characters?query="  # Base URL for character queries
     archiveResponse = requests.get(archiveURL + "names&matchCategories=true").json()  # Returns all character names
@@ -207,7 +207,7 @@ elif add_selectbox == "Fun Stuff!":
     numPulls = st.slider(label="How many wishes will you use?", min_value=0, max_value=90)
     chanceFiveStar = 0.6 * numPulls
     if numPulls < 90:
-        st.info("Your chances of getting a 5-star within " + str(numPulls) + " wishes is: "
+        st.info("Your chances of getting a 5-star within " + str(numPulls) + " wishes is approximately: "
                 + str(chanceFiveStar) + "%")
     else:
         st.info("A 5-star character is guaranteed within every 90 wishes due to the pity system.")
