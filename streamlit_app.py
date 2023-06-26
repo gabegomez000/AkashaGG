@@ -1,9 +1,6 @@
 import streamlit as st  # calls the module as an alias
 import pandas as pd
-import numpy as np
 import requests
-import json
-import webbrowser
 
 st.set_page_config(
     page_title="AkashaGG - Streamlit Project",

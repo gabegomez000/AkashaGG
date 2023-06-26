@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AkashaGG - Artifacts</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Artifact Reliquary</h1>
+        <h2>Find basic information for artifact sets</h2>
+
+        <form action="{{ url_for('artifacts') }}" method="POST">
+            <label for="artifact">Choose an artifact set:</label>
+            <select name="artifact" id="artifact">
+                {% for artifact in artifact_sets %}
+                <option value="{{ artifact }}">{{ artifact }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <input class="button" type="submit" value="Submit">
+        </form>
+
+        {% if artifact_response %}
+            <h3>Selected Artifact Set: {{ selected_artifact }}</h3>
+            <h4>2-Piece Set Bonus:</h4>
+            <p>{{ artifact_response['2pc'] }}</p>
+            <h4>4-Piece Set Bonus:</h4>
+            <p>{{ artifact_response['4pc'] }}</p>
+
+            <div class="image-grid">
+                <div class="image-item">
+                    <img src="{{ artifact_response['images']['flower'] }}" alt="Flower of Life">
+                    <p class="caption">Flower of Life</p>
+                </div>
+                <div class="image-item">
+                    <img src="{{ artifact_response['images']['plume'] }}" alt="Plume of Death">
+                    <p class="caption">Plume of Death</p>
+                </div>
+                <div class="image-item">
+                    <img src="{{ artifact_response['images']['sands'] }}" alt="Sands of Eon">
+                    <p class="caption">Sands of Eon</p>
+                </div>
+                <div class="image-item">
+                    <img src="{{ artifact_response['images']['goblet'] }}" alt="Goblet of Eonothem">
+                    <p class="caption">Goblet of Eonothem</p>
+                </div>
+                <div class="image-item">
+                    <img src="{{ artifact_response['images']['circlet'] }}" alt="Circlet of Logos">
+                    <p class="caption">Circlet of Logos</p>
+                </div>
+            </div>
+
+            <h3>Compare possible mainstats for each artifact piece below:</h3>
+            <table class="mainstats-table">
+                <thead>
+                    <tr>
+                        {% for piece in artifact_pieces %}
+                        <th>{{ piece }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for piece in artifact_pieces %}
+                        <td>{{ artifact_mainstats[piece] }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>See more details about artifact stats:</h3>
+            <div class="expander">
+                <p>- HP(%): Increases the Max HP stat of the equipping character.</p>
+                <p>- ATK(%): Increases the ATK stat of the equipping character.</p>
+                <p>- DEF(%): Increases the DEF stat of the equipping character.</p>
+                <p>- EM: Increases the Elemental Mastery stat of the equipping character.</p>
+                <p>- ER(%): Increases Energy Recharge rate of the equipping character.</p>
+                <p>- CR(%): Increases the Crit Rate stat of the equipping character.</p>
+                <p>- CD(%): Increases the Crit DMG stat of the equipping character.</p>
+                <p>- Healing(%): Increases the incoming healing of the equipping character.</p>
+                <p>- Elemental DMG(%): Increases the Elemental DMG of the equipping character.</p>
+                <p>- Physical DMG(%): Increases the Physical DMG of the equipping character.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
